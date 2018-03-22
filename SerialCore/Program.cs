@@ -44,7 +44,9 @@ namespace SerialCore
             };
 
             Port.DataReceived += SerialPortDataReceived;
-            Port.Open();
+
+            try { Port.Open(); }
+            catch { Console.WriteLine("Port Already Open!"); }
 
             return Port;
         }
@@ -99,7 +101,7 @@ namespace SerialCore
 
                 if (Ports.Count == 1)
                 {
-                    Console.Write("Reading Data: ");
+                    Console.WriteLine("Ready:");
                     Port = Read(Ports[0], baudrate);
                 }
                 else
@@ -114,9 +116,12 @@ namespace SerialCore
                             break;
                     }
 
-                    Console.WriteLine("Reading Data:");
+                    Console.WriteLine("Ready:");
                     Port = Read(port, baudrate);
                 }
+
+                while (true)
+                    Port.WriteLine(Console.ReadLine() + '\r');
             }
             else Console.WriteLine("No Serial Ports Found! Bye");
             Console.ReadKey();
