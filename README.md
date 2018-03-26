@@ -1,5 +1,5 @@
 # SerialCore
-SerialCore: Serial Reader For .Net Core 2.0
+SerialCore: Serial Communications For .Net Core 2.0
 
 Jawid Hassim, adapted from Jeremy Lindsay.
 
