@@ -1,6 +1,8 @@
 # SerialCore
 SerialCore: Serial Communications For .Net Core 2.0
 
+[Last Update: Added Two-way communication]
+
 Jawid Hassim, adapted from Jeremy Lindsay.
 
 Jeremy's original blog post for integrating with Arduino:
