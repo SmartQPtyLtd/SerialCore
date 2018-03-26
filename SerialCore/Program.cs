@@ -74,6 +74,7 @@ namespace SerialCore
         static void SetBaudRate()
         {
             string input;
+            int baudrate;
 
             while (true)
             {
@@ -86,10 +87,14 @@ namespace SerialCore
                     break;
                 }
 
-                if (int.TryParse(input, out Baudrate))
+                if (int.TryParse(input, out baudrate))
                 {
-                    if (Baudrates.Contains(Baudrate))
+                    if (Baudrates.Contains(baudrate))
+                    {
+                        Baudrate = baudrate;
+                        Console.WriteLine($"Baudrate: {Baudrate}");
                         break;
+                    }
                 }
             }
         }
@@ -100,7 +105,7 @@ namespace SerialCore
             while (true)
             {
                 commands = Console.ReadLine() + '\r';
-                if (commands.ToUpper().StartsWith("EXIT"))
+                if (commands.Trim() == "exit")
                 {
                     if (Port != null)
                         Port.Close();
