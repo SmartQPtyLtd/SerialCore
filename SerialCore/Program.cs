@@ -131,7 +131,7 @@ namespace SerialCore
 
         static void Main(string[] args)
         {
-            Console.WriteLine("SerialCore v1.0 Serial Reader For .Net Core 2.0\r\nJawid Hassim, adapted from Jeremy Lindsay.");
+            Console.WriteLine("SerialCore v1.0 Serial Communications For .Net Core 2.0\r\nJawid Hassim, adapted from Jeremy Lindsay.");
 
             ListSerialPorts();
 
@@ -158,6 +158,8 @@ namespace SerialCore
             if (Port != null)
                 Port.Close();
 
+            Baudrates.Clear();
+            Port.Dispose();
             Environment.Exit(0);
         }
     }
