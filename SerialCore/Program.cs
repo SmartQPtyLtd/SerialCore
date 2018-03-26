@@ -6,6 +6,8 @@ namespace SerialCore
 {
     class Program
     {
+        static SerialPort Port;
+
         public static List<int> Baudrates = new List<int>
         {
             110,
@@ -63,7 +65,7 @@ namespace SerialCore
             foreach (var port in SerialPort.GetPortNames())
             {
                 Ports.Add(port);
-                Console.Write(port);
+                Console.Write(" | " + port);
             }
         }
 
@@ -74,8 +76,6 @@ namespace SerialCore
             SerialPorts();
             Console.WriteLine();
 
-            SerialPort Port = null;
-
             if (Ports.Count != 0)
             {
                 int baudrate = 9600;
@@ -83,7 +83,7 @@ namespace SerialCore
 
                 while (true)
                 {
-                    Console.Write("Set Baudrate: ");
+                    Console.Write("Set Baudrate (Optional) : ");
                     input = Console.ReadLine();
 
                     if (string.IsNullOrEmpty(input))
@@ -111,7 +111,7 @@ namespace SerialCore
                     while (true)
                     {
                         Console.Write("Please Enter Port: ");
-                        port = Console.ReadLine();
+                        port = Console.ReadLine().ToUpper();
                         if (Ports.Contains(port))
                             break;
                     }
@@ -120,11 +120,22 @@ namespace SerialCore
                     Port = Read(port, baudrate);
                 }
 
+                string commands;
                 while (true)
-                    Port.WriteLine(Console.ReadLine() + '\r');
+                {
+                    commands = Console.ReadLine() + '\r';
+                    if (commands.ToUpper().StartsWith("EXIT"))
+                    {
+                        if (Port != null)
+                            Port.Close();
+
+                        break;
+                    }
+
+                    Port.WriteLine(commands);
+                }
             }
             else Console.WriteLine("No Serial Ports Found! Bye");
-            Console.ReadKey();
 
             if (Port != null)
                 Port.Close();
