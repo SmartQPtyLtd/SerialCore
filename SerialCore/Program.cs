@@ -108,7 +108,10 @@ namespace SerialCore
                 if (commands.Trim() == "exit")
                 {
                     if (Port != null)
+                    {
                         Port.Close();
+                        Port.Dispose();
+                    }
 
                     break;
                 }
@@ -155,6 +158,7 @@ namespace SerialCore
 
                 SendCommands();
                 Ports.Clear();
+                Baudrates.Clear();
             }
             else
             {
@@ -163,10 +167,11 @@ namespace SerialCore
             }
 
             if (Port != null)
+            {
                 Port.Close();
+                Port.Dispose();
+            }
 
-            Baudrates.Clear();
-            Port.Dispose();
             Environment.Exit(0);
         }
     }
