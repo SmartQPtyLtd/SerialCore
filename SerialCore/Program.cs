@@ -7,8 +7,9 @@ namespace SerialCore
     class Program
     {
         static SerialPort Port;
+        static int BaudRate = 9600;
 
-        public static List<int> Baudrates = new List<int>
+        static List<int> Baudrates = new List<int>
         {
             110,
             300,
@@ -32,9 +33,9 @@ namespace SerialCore
             921600
         };
 
-        public static List<string> Ports = new List<string>();
+        static List<string> Ports = new List<string>();
 
-        public static SerialPort Read(string port, int baudrate)
+        static SerialPort Read(string port, int baudrate)
         {
             SerialPort Port = new SerialPort(port)
             {
@@ -53,89 +54,106 @@ namespace SerialCore
             return Port;
         }
 
-        private static void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
+        static void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort port = (SerialPort)sender;
             Console.Write(port.ReadExisting());
         }
 
-        public static void SerialPorts()
+        static void ListSerialPorts()
         {
-            Console.Write("Available Serial ports: ");
+            Console.Write("Available Serial ports:");
             foreach (var port in SerialPort.GetPortNames())
             {
                 Ports.Add(port);
-                Console.Write(" | " + port);
+                Console.Write(" [" + port + "]");
             }
+
+            Console.WriteLine();
+        }
+
+        static void SetBaudRate()
+        {
+            string input;
+
+            while (true)
+            {
+                Console.Write("Set Baudrate (Optional) : ");
+                input = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(input.Trim()))
+                {
+                    Console.WriteLine($"Baudrate: {BaudRate} [Default]");
+                    break;
+                }
+
+                if (int.TryParse(input, out BaudRate))
+                {
+                    if (Baudrates.Contains(BaudRate))
+                        break;
+                }
+            }
+        }
+
+        static void SendCommands()
+        {
+            string commands;
+            while (true)
+            {
+                commands = Console.ReadLine() + '\r';
+                if (commands.ToUpper().StartsWith("EXIT"))
+                {
+                    if (Port != null)
+                        Port.Close();
+
+                    break;
+                }
+
+                Port.WriteLine(commands);
+            }
+        }
+
+        static void SetPort()
+        {
+            string port;
+
+            while (true)
+            {
+                Console.Write("Please Enter Port: ");
+                port = Console.ReadLine().ToUpper();
+                if (Ports.Contains(port))
+                    break;
+            }
+
+            Console.WriteLine("Ready:");
+            Port = Read(port, BaudRate);
         }
 
         static void Main(string[] args)
         {
             Console.WriteLine("SerialCore v1.0 Serial Reader For .Net Core 2.0\r\nJawid Hassim, adapted from Jeremy Lindsay.");
 
-            SerialPorts();
-            Console.WriteLine();
+            ListSerialPorts();
 
             if (Ports.Count != 0)
             {
-                int baudrate = 9600;
-                string input;
-
-                while (true)
-                {
-                    Console.Write("Set Baudrate (Optional) : ");
-                    input = Console.ReadLine();
-
-                    if (string.IsNullOrEmpty(input))
-                    {
-                        Console.WriteLine("Baudrate: 9600 [Default]");
-                        break;
-                    }
-
-                    if (int.TryParse(input, out baudrate))
-                    {
-                        if (Baudrates.Contains(baudrate))
-                            break;
-                    }
-                }
+                SetBaudRate();
 
                 if (Ports.Count == 1)
                 {
                     Console.WriteLine("Ready:");
-                    Port = Read(Ports[0], baudrate);
+                    Port = Read(Ports[0], BaudRate);
                 }
-                else
-                {
-                    string port;
+                else SetPort();
 
-                    while (true)
-                    {
-                        Console.Write("Please Enter Port: ");
-                        port = Console.ReadLine().ToUpper();
-                        if (Ports.Contains(port))
-                            break;
-                    }
-
-                    Console.WriteLine("Ready:");
-                    Port = Read(port, baudrate);
-                }
-
-                string commands;
-                while (true)
-                {
-                    commands = Console.ReadLine() + '\r';
-                    if (commands.ToUpper().StartsWith("EXIT"))
-                    {
-                        if (Port != null)
-                            Port.Close();
-
-                        break;
-                    }
-
-                    Port.WriteLine(commands);
-                }
+                SendCommands();
+                Ports.Clear();
             }
-            else Console.WriteLine("No Serial Ports Found! Bye");
+            else
+            {
+                Console.WriteLine("No Serial Ports Found! Bye");
+                Console.ReadKey();
+            }
 
             if (Port != null)
                 Port.Close();
