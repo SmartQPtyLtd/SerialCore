@@ -7,8 +7,9 @@ namespace SerialCore
     class Program
     {
         static SerialPort Port;
-        static int BaudRate = 9600;
+        static int Baudrate = 9600;
 
+        static List<string> Ports = new List<string>();
         static List<int> Baudrates = new List<int>
         {
             110,
@@ -32,8 +33,6 @@ namespace SerialCore
             460800,
             921600
         };
-
-        static List<string> Ports = new List<string>();
 
         static SerialPort Read(string port, int baudrate)
         {
@@ -66,7 +65,7 @@ namespace SerialCore
             foreach (var port in SerialPort.GetPortNames())
             {
                 Ports.Add(port);
-                Console.Write(" [" + port + "]");
+                Console.Write(" [" + port + ']');
             }
 
             Console.WriteLine();
@@ -83,13 +82,13 @@ namespace SerialCore
 
                 if (string.IsNullOrEmpty(input.Trim()))
                 {
-                    Console.WriteLine($"Baudrate: {BaudRate} [Default]");
+                    Console.WriteLine($"Baudrate: {Baudrate} [Default]");
                     break;
                 }
 
-                if (int.TryParse(input, out BaudRate))
+                if (int.TryParse(input, out Baudrate))
                 {
-                    if (Baudrates.Contains(BaudRate))
+                    if (Baudrates.Contains(Baudrate))
                         break;
                 }
             }
@@ -123,10 +122,11 @@ namespace SerialCore
                 port = Console.ReadLine().ToUpper();
                 if (Ports.Contains(port))
                     break;
+
             }
 
             Console.WriteLine("Ready:");
-            Port = Read(port, BaudRate);
+            Port = Read(port, Baudrate);
         }
 
         static void Main(string[] args)
@@ -142,7 +142,7 @@ namespace SerialCore
                 if (Ports.Count == 1)
                 {
                     Console.WriteLine("Ready:");
-                    Port = Read(Ports[0], BaudRate);
+                    Port = Read(Ports[0], Baudrate);
                 }
                 else SetPort();
 
