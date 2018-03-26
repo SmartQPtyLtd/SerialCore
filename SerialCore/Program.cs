@@ -34,11 +34,11 @@ namespace SerialCore
             921600
         };
 
-        static SerialPort Read(string port, int baudrate)
+        static SerialPort Read(string port)
         {
             SerialPort Port = new SerialPort(port)
             {
-                BaudRate = baudrate,
+                BaudRate = Baudrate,
                 Parity = Parity.None,
                 StopBits = StopBits.One,
                 DataBits = 8,
@@ -126,12 +126,14 @@ namespace SerialCore
                 Console.Write("Please Enter Port: ");
                 port = Console.ReadLine().ToUpper();
                 if (Ports.Contains(port))
+                {
+                    Console.WriteLine($"Port: {port}");
                     break;
-
+                }
             }
 
             Console.WriteLine("Ready:");
-            Port = Read(port, Baudrate);
+            Port = Read(port);
         }
 
         static void Main(string[] args)
@@ -147,7 +149,7 @@ namespace SerialCore
                 if (Ports.Count == 1)
                 {
                     Console.WriteLine("Ready:");
-                    Port = Read(Ports[0], Baudrate);
+                    Port = Read(Ports[0]);
                 }
                 else SetPort();
 
