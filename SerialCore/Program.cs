@@ -158,7 +158,6 @@ namespace SerialCore
 
                 SendCommands();
                 Ports.Clear();
-                Baudrates.Clear();
             }
             else
             {
@@ -172,6 +171,7 @@ namespace SerialCore
                 Port.Dispose();
             }
 
+            Baudrates.Clear();
             Environment.Exit(0);
         }
     }
