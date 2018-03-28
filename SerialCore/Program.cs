@@ -47,8 +47,12 @@ namespace SerialCore
 
             Port.DataReceived += SerialPortDataReceived;
 
-            try { Port.Open(); }
-            catch { Console.WriteLine("Port Already Open!"); }
+            try
+            {
+                Port.Open();
+                Console.WriteLine("Ready:");
+            }
+            catch (Exception Ex) { Console.WriteLine($"Error: {Ex}"); }
 
             return Port;
         }
@@ -134,8 +138,7 @@ namespace SerialCore
                     break;
                 }
             }
-
-            Console.WriteLine("Ready:");
+            
             Port = Read(port);
         }
 
@@ -150,10 +153,7 @@ namespace SerialCore
                 SetBaudRate();
 
                 if (Ports.Count == 1)
-                {
-                    Console.WriteLine("Ready:");
                     Port = Read(Ports[0]);
-                }
                 else SetPort();
 
                 SendCommands();
