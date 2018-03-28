@@ -52,7 +52,7 @@ namespace SerialCore
                 Port.Open();
                 Console.WriteLine("Ready:");
             }
-            catch (Exception Ex) { Console.WriteLine($"Error: {Ex}"); }
+            catch { Console.WriteLine("Error: Port Open / In Use!"); }
 
             return Port;
         }
@@ -155,7 +155,8 @@ namespace SerialCore
                 if (Ports.Count == 1)
                     Port = Read(Ports[0]);
                 else SetPort();
-
+                
+                Baudrates.Clear();
                 SendCommands();
                 Ports.Clear();
             }
@@ -164,14 +165,7 @@ namespace SerialCore
                 Console.WriteLine("No Serial Ports Found! Bye");
                 Console.ReadKey();
             }
-
-            if (Port != null)
-            {
-                Port.Close();
-                Port.Dispose();
-            }
-
-            Baudrates.Clear();
+            
             Environment.Exit(0);
         }
     }
