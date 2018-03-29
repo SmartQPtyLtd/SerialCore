@@ -157,7 +157,10 @@ namespace SerialCore
                 else SetPort();
                 
                 Baudrates.Clear();
-                SendCommands();
+                
+                if (Port.IsOpen)
+                    SendCommands();
+                
                 Ports.Clear();
             }
             else
