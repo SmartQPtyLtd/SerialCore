@@ -78,7 +78,6 @@ namespace SerialCore
         static void SetBaudRate()
         {
             string input;
-            int baudrate;
 
             while (true)
             {
@@ -91,7 +90,7 @@ namespace SerialCore
                     break;
                 }
 
-                if (int.TryParse(input, out baudrate))
+                if (int.TryParse(input, out int baudrate))
                 {
                     if (Baudrates.Contains(baudrate))
                     {
