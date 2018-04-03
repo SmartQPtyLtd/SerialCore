@@ -5,6 +5,8 @@ Jawid Hassim, adapted from Jeremy Lindsay.
 
 [Last Update: Added Two-way communication]
 
+[OpenNETCF Branch of SerialCore]
+
 If you are using Full .Net, the 'Program.cs' file is literally copy/paste ready.
 
 Jeremy's original blog post for integrating with Arduino:
