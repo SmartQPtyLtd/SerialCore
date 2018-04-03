@@ -1,5 +1,5 @@
 # SerialCore
-SerialCore: Serial Communications For .Net Core 2.0
+SerialCore: Serial Communications For .Net Core 2.0 (Windows) (Check Branches For Linux/Mono)
 
 Jawid Hassim, adapted from Jeremy Lindsay.
 
