@@ -36,7 +36,7 @@ namespace SerialCore
 
         static SerialPort Read(string port)
         {
-            SerialPort Port = new SerialPort(port)
+            SerialPort _Port = new SerialPort(port)
             {
                 BaudRate = Baudrate,
                 Parity = Parity.None,
@@ -45,16 +45,16 @@ namespace SerialCore
                 Handshake = Handshake.None
             };
 
-            Port.ReceivedEvent += new SerialReceivedEventHandler(SerialPortDataReceived);
+            _Port.DataReceived += SerialPortDataReceived;
 
             try
             {
-                Port.Open();
+                _Port.Open();
                 Console.WriteLine("Ready:");
             }
             catch { Console.WriteLine("Error: Port Open / In Use!"); }
 
-            return Port;
+            return _Port;
         }
 
         static void SerialPortDataReceived(object sender, SerialReceivedEventArgs e)
