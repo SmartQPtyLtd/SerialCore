@@ -69,7 +69,7 @@ namespace SerialCore
             foreach (var port in SerialPort.GetPortNames())
             {
                 Ports.Add(port);
-                Console.Write(" [" + port + ']');
+                Console.Write($" [{port}]");
             }
 
             Console.WriteLine();
