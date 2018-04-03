@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Ports;
+using OpenNETCF.IO.Ports; //.NET SerialPort library, Brought to you by: yurochek
 
 namespace SerialCore
 {
@@ -45,7 +45,7 @@ namespace SerialCore
                 Handshake = Handshake.None
             };
 
-            Port.DataReceived += SerialPortDataReceived;
+            Port.ReceivedEvent += new SerialReceivedEventHandler(SerialPortDataReceived);
 
             try
             {
@@ -57,7 +57,7 @@ namespace SerialCore
             return Port;
         }
 
-        static void SerialPortDataReceived(object sender, SerialDataReceivedEventArgs e)
+        static void SerialPortDataReceived(object sender, SerialReceivedEventArgs e)
         {
             SerialPort port = (SerialPort)sender;
             Console.Write(port.ReadExisting());

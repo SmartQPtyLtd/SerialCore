@@ -6,7 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="4.4.0" />
+    <None Remove="SerialPort.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="4.5.0-preview1-26216-02" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SerialPort">
+      <HintPath>SerialPort.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
