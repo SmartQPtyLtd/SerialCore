@@ -566,8 +566,8 @@ namespace SerialCore
         static SerialPort Port;
         static int Baudrate = 9600;
 
-        static List<string> Ports = new List<string>();
-        static List<int> Baudrates = new List<int>
+        static readonly List<string> Ports = new List<string>();
+        static readonly List<int> Baudrates = new List<int>
         {
             110,
             300,
